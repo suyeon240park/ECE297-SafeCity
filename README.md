@@ -4,6 +4,12 @@ SafeCity is a GIS-based application that visualizes reported incidents and suppo
 
 The historical incident layer is intended as a visualization and route-comparison heuristic. It should not be interpreted as a real-time crime prediction system or as an objective measure of whether a neighborhood is "safe" or "dangerous."
 
+## Source Availability
+
+This project was developed for **ECE297 at the University of Toronto**. The application source code is **not published publicly because of academic-integrity requirements for course work**. This repository therefore contains project documentation, demonstrations, and performance-analysis artifacts rather than the full C++ codebase.
+
+The notebooks included here analyze path-finding and multi-route performance from the completed project. I am happy to discuss the architecture, algorithms, design decisions, testing approach, and my individual contributions in an interview without redistributing restricted course source code.
+
 ## Key Features
 
 ### 1. Incident Mapping
