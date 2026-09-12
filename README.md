@@ -1,22 +1,25 @@
 # ECE297 Final Project - SafeCity
-SafeCity is a GIS-based application designed to improve urban safety by mapping and visualizing dangerous areas in Toronto based on incidents reported in 2023. Leveraging Geographic Information Systems (GIS) technology, SafeCity provides real-time information on high-risk zones, enabling users to make informed decisions about their routes and locations. By highlighting areas prone to crime and other incidents, SafeCity empowers users to navigate the city more safely.
 
+SafeCity is a GIS-based application that visualizes reported incidents and supports incident-aware route exploration in Toronto. The project combines **historical 2023 Toronto Police Service incident data** with **real-time TomTom traffic incidents** and standard map/navigation features.
 
+The historical incident layer is intended as a visualization and route-comparison heuristic. It should not be interpreted as a real-time crime prediction system or as an objective measure of whether a neighborhood is "safe" or "dangerous."
 
 ## Key Features
+
 ### 1. Incident Mapping
+
 - Visualizes Points of Interest (POIs) in major cities.
-- Displays 2023 crime incidents in Toronto sourced from the Toronto Police Service CSV.
-- Shows real-time traffic incidents via the TomTom traffic API.
-- Clicking on map elements opens a sidebar with incident details such as type, date, and neighborhood.
- 
+- Displays reported 2023 crime incidents in Toronto sourced from Toronto Police Service data.
+- Shows real-time traffic incidents through the TomTom traffic API.
+- Opens a sidebar with incident details such as type, date, and neighborhood when users select map elements.
+
 <p align="center">
   <img src="src/POI.png" width="700">
 </p>
 
-
 ### 2. User-Friendly Interface
-- Analyzes incident concentration on the map.
+
+- Visualizes concentrations of reported incidents on the map.
 - Adjusts map elements dynamically based on zoom level for improved visibility.
 
 <p align="center">
@@ -24,29 +27,33 @@ SafeCity is a GIS-based application designed to improve urban safety by mapping 
 </p>
 <br><br>
 
-### 3. Path Finding with A* algorithm
-- Efficient route planning considering travel time and street turn penalties.
+### 3. Path Finding with the A* Algorithm
+
+- Performs route planning while considering travel time and street-turn penalties.
 - Process:
-1. Initialize: Create a graph.
-2. Explore: Traverse legally connected intersections.
-3. Evaluate: Determine if the destination is reached or calculate the cost.
-4. Return: Backtrack and return the path if it exists.
- 
-- Path Finding Demo:
+  1. **Initialize:** Create the graph representation.
+  2. **Explore:** Traverse legally connected intersections.
+  3. **Evaluate:** Determine whether the destination has been reached and update path costs.
+  4. **Return:** Backtrack through the predecessor chain to construct the path.
+
+**Path-finding demo:**
 
 <p align="center">
   <img src="src/path.png" width="700">
 </p>
 <br>
 
-- Result:
+**Result:**
+
 <p align="center">
   <img src="src/path finding result.png" width="700">
 </p>
 <br><br>
 
-### 4. Safe Path:
-- Identifies safer routes by minimizing the number of incidents along the path.
+### 4. Incident-Aware Route Comparison
+
+- Compares candidate routes using the number of historical reported incidents near the route as an additional heuristic.
+- This feature is intended for exploration and does not guarantee that a route is safer in real-world conditions.
 
 <p align="center">
   <img src="src/safe path.gif" width="900">
@@ -55,35 +62,42 @@ SafeCity is a GIS-based application designed to improve urban safety by mapping 
 </p>
 <br><br>
 
-### 5. Multi-Route Planning:
-- Allows users to select optimal paths for multiple destinations
-- Process:
-1. Create Matrix: Establish intersections.
-2. Run Random Greedy Route: Execute 2000 iterations of the greedy route algorithm.
-3. Select Optimal Route: Identify the lowest-cost route from the greedy route results.
-4. Identify Depot: Determine the depot with the lowest associated cost.
+### 5. Multi-Route Planning
 
-<br>
-- Result:
+- Allows users to plan routes across multiple destinations.
+- Process:
+  1. **Create Matrix:** Establish costs between relevant intersections.
+  2. **Run Randomized Greedy Search:** Execute 2,000 iterations of the greedy route algorithm.
+  3. **Select Route:** Keep the lowest-cost route found across the iterations.
+  4. **Identify Depot:** Select the depot with the lowest associated route cost.
+
+**Result:**
+
 <p align="center">
   <img src="src/multi route result.png" width="700">
 </p>
 <br><br>
 
+## What the Project Demonstrates
 
-## Impact
-- Facilitates safer navigation for users by avoiding dangerous areas and highlighting safe zones.
-- Mitigates safety concerns by offering insights into incident patterns within urban settings.
-- Improves navigation efficiency and fosters city-wide safety awareness.
+- GIS visualization using C++ and map data.
+- Integration of historical incident datasets and a real-time traffic API.
+- Graph search and route planning with A*.
+- Heuristic route comparison using multiple cost signals.
+- Interactive map UI design for navigating large spatial datasets.
 
+## Data and Interpretation Limitations
 
-## Limitation
-1. Incident data may not be truly real-time due to API delivery delays.
-2. The types of incidents may not always clearly convey the actual situation or events occurring at the location.
-3. Crime rates can be skewed in densely populated areas, failing to accurately reflect crime rates per capita.
+1. **Crime data is historical, not real time.** The crime layer in this project represents reported incidents from 2023. Only the TomTom traffic-incident layer is real time.
+2. **Reported incidents are not equivalent to objective neighborhood safety.** Reporting rates, policing patterns, time of day, and many other factors affect the dataset.
+3. **Raw incident counts are not population-normalized.** Dense or highly visited areas may naturally contain more reported incidents even if per-capita rates differ.
+4. **Incident categories lack full situational context.** A category and map location alone cannot fully describe the circumstances or current risk at a location.
+5. **Route heuristics are exploratory.** Minimizing proximity to historical reported incidents does not guarantee a safer trip.
 
+## Future Work
 
-## Future Pitch
-1. Integrate GIS with social media for real-time incident reporting.
-2. Enable users to report incidents using various media types: text, photos, and videos.
-3. Calculate crime rates per capita for precise insights and visualize them on a gradient map.
+1. Normalize historical incident measures using population or foot-traffic estimates.
+2. Add time-of-day and recency weighting to incident visualization.
+3. Evaluate route heuristics against better-defined safety metrics rather than raw incident counts.
+4. Explore carefully moderated user-submitted incident reports with appropriate verification and privacy protections.
+5. Add richer gradient/heat-map visualizations for normalized incident rates.
